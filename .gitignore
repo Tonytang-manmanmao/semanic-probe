@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+
+# 训练产物（体积大，不进 git）
+output/
+outputs/
+wandb/
+*.pth
+*.log
+*.json
+
+# 数据集（43GB，组员自行下载）
+PEDRo/
+datasets/
+
+# 编辑器 / 系统
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
