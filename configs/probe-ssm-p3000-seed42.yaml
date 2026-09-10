@@ -1,0 +1,95 @@
+﻿# Route B (SSM -> HyperGraph) soft-hyperedge source probe, 3,000 optimizer steps, seed 42.
+#
+# Only ONE variable vs the shared B0/ssm2hg recipe: the input that drives the
+# hyperedge incidence matrix H (hyperedge_source).
+#   3000 steps ~= 10 epochs (301 optimizer steps / epoch) -- a DIRECTION screen only,
+#   NOT an effectiveness claim.
+
+radius: 0.01
+time_window_us: 1000000
+max_neighbors: 16
+n_nodes: 50000
+batch_size: 8
+gradient_accumulation_steps: 8
+eval_batch_size: 1
+num_workers: 0
+
+activation: relu
+edge_attr_dim: 2
+aggr: sum
+kernel_size: 5
+pooling_aggr: max
+base_width: 0.5
+after_pool_width: 1
+net_stem_width: 1
+yolo_stem_width: 0.78125
+num_scales: 2
+
+l_r: 0.01
+weight_decay: 0.00001
+clip: 0.1
+seed: 42
+max_training_steps: 3000
+lr_schedule_steps: 150000
+validation_interval_epochs: 5
+checkpoint_steps: 50
+
+aug_crop_ratio: 0.75
+aug_crop_probability: 1.0
+aug_trans: 0.1
+aug_p_flip: 0.0
+aug_zoom: 1.0
+
+motion_gate: true
+motion_gate_mode: soft
+motion_gate_reduce: mean
+motion_gate_feature_aware: true
+motion_gate_feature_alpha: 0.3
+motion_gate_power: 1.0
+motion_gate_keep_edge_gamma: false
+motion_gate_sigma_v: 0.25
+motion_gate_sigma_s: 0.25
+motion_gate_eps_dt: 0.000001
+motion_gate_tau_dt_us: 5000.0
+motion_gate_gmin: 0.2
+motion_gate_feature_hidden: 16
+motion_gate_feature_detach_x: false
+motion_gate_k: 16
+
+use_vss_backbone: true
+graph_stages: 2
+vss_stages: 2
+vss_dim: 128
+vss_depths: [1, 1]
+vss_downsamples: [true, true]
+vss_output_indices: [0, 1]
+vss_drop_path: 0.1
+vss_norm_layer: ln2d
+vss_ssm_d_state: 16
+vss_ssm_dt_rank: auto
+vss_ssm_ratio: 2.0
+vss_ssm_act_layer: silu
+vss_ssm_conv: 3
+vss_ssm_conv_bias: true
+vss_ssm_drop_rate: 0.0
+vss_ssm_forwardtype: v05_noz
+vss_mlp_ratio: 2.0
+vss_mlp_act_layer: gelu
+vss_mlp_drop_rate: 0.0
+vss_gmlp: false
+vss_use_checkpoint: false
+vss_post_norm: false
+
+pretrain_cnn: false
+use_image: false
+no_events: false
+keep_temporal_ordering: false
+exp_name: probe-ssm-p3000-seed42
+
+use_ssm_hyper: true
+hyperedge_source: ssm
+num_hyperedges: 16
+ssm_hyper_state: 16
+ssm_hyper_entropy_weight: 0.02
+ssm_hyper_sharpness_weight: 0.02
+ssm_hyper_consistency_weight: 0.1
